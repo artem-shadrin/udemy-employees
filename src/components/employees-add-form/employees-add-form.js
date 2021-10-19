@@ -11,9 +11,19 @@ export default class EmployeesAddForm extends Component {
       [e.target.name]: e.target.value,
     });
   };
+  onSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.name.length < 3 || !this.state.salary) return;
+    this.props.onAdd(this.state);
+    for (const field in this.state) {
+      if (Object.hasOwnProperty.call(this.state, field)) {
+        this.setState({ [field]: "" });
+      }
+    }
+  };
   render() {
     const { name, salary } = this.state;
-    const { onAdd } = this.props;
+
     return (
       <div className="app-add-form">
         <h3>Добавьте нового сотрудника</h3>
@@ -38,15 +48,7 @@ export default class EmployeesAddForm extends Component {
           <button
             type="submit"
             className="btn btn-outline-light"
-            onClick={(e) => {
-              e.preventDefault();
-              onAdd(this.state);
-              for (const field in this.state) {
-                if (Object.hasOwnProperty.call(this.state, field)) {
-                  this.setState({ [field]: "" });
-                }
-              }
-            }}
+            onClick={this.onSubmit}
           >
             Добавить
           </button>
