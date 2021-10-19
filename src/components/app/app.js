@@ -67,6 +67,15 @@ export default class App extends Component {
   onUpdateSearch = (term) => {
     this.setState({ term });
   };
+  onUpdateSalary = (name, salary) => {
+    const newArr = this.state.data.map((item) => {
+      if (item.name === name) {
+        return { ...item, salary: salary };
+      }
+      return item;
+    });
+    this.setState({ data: newArr });
+  };
   render() {
     const { data, term, filter } = this.state;
     const employees = this.state.data.length;
@@ -85,6 +94,7 @@ export default class App extends Component {
           data={visibleData}
           onDelete={this.deleteItem}
           onToggleProp={this.onToggleProp}
+          onUpdateSalary={this.onUpdateSalary}
         />
         <EmployeesAddForm onAdd={this.addItem} />
       </div>
